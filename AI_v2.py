@@ -1,21 +1,12 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon Sep 26 19:45:20 2016
-
-@author: Philip
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 22 13:02:55 2016
-
-@author: Philip
+Second attempt to implement an AI.
+This AI is called BetaBent, and is based on a min-max tree search that evaluates each board state according to evaluate.
 """
 
 
-class AI2(object):
-    def __init__(self, CB):
-        self.board = CB
+class BetaBent(object):
+    def __init__(self, chess_board):
+        self.board = chess_board
 
     def move(self, startRow, startCol, destRow, destCol):
         self.board.state[startRow][startCol].move_piece(destRow, destCol)

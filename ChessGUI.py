@@ -5,59 +5,16 @@
 # @author: Philip
 # """
 #
-from tkinter import *
-from SkakMat2 import *
+from tkinter import Tk, PhotoImage, Text, Button, INSERT, Label
+
 from AI_v1 import *
 from AI_v2 import *
-
-CB = Board()
-
-Chess = Tk()
-Chess.title("SkakMat2")
-
-textbox = Text(Chess)
-textbox.grid(row = 0, column = 8, columnspan = 6, rowspan = 5)
-
-move = [0, 0, 0, 0, False]
-
-B = [["X"] * 8] * 8
-""" Images """
-BP = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\BP.png", height = 80)
-BK = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\BK.png", height = 80)
-BB = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\BB.png", height = 80)
-BQn = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\BQn.png", height = 80)
-BKi = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\BKi.png", height = 80)
-BR = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\BR.png", height = 80)
-WP = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\WP.png", height = 80)
-WK = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\WK.png", height = 80)
-WB = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\WB.png", height = 80)
-WQn = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\WQn.png", height = 80)
-WKi = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\WKi.png", height = 80)
-WR = PhotoImage(file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\WR.png", height = 80)
-Empt = PhotoImage(
-    file = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\Empty.png", height = 80, width = 80
-)
-
-imgur = {
-    "BP": BP,
-    "BR": BR,
-    "BK": BK,
-    "BB": BB,
-    "BQn": BQn,
-    "BKi": BKi,
-    "WP": WP,
-    "WR": WR,
-    "WK": WK,
-    "WB": WB,
-    "WQn": WQn,
-    "WKi": WKi,
-}
+from SkakMat2 import Board
 
 
-def create_btn(Brow, Bcolumn, BGC, img = Empt):
-    return Button(
-        Chess, bg = BGC, image = img, command = lambda: position(Brow, Bcolumn)
-    ).grid(row = Brow, column = Bcolumn)
+def create_btn(row, col, color, img=Empt):
+    btn = Button(Chess, bg=color, image=img, command=lambda: position(row, col))
+    btn.grid(row=row, column=col)
 
 
 def get_color(row, column):
@@ -177,12 +134,12 @@ def position(i, j):
 
 def chg_turn(turn):
     if turn:
-        Label(text = "Turn: White", bg = "white").grid(row = 6, column = 9)
+        Label(text="Turn: White", bg="white").grid(row=6, column=9)
     else:
-        Label(text = "Turn: Black", bg = "brown").grid(row = 6, column = 9)
+        Label(text="Turn: Black", bg="brown").grid(row=6, column=9)
 
 
-def moveAI1():
+def move_aidan():
     i = 0
     thisTurn = CB.moves
     while CB.moves == thisTurn and i <= 50:
@@ -193,29 +150,22 @@ def moveAI1():
         i += 1
 
 
-def getIncumbent(isWhite):
-    if isWhite:
+def get_incumbent(is_white):
+    if is_white:
         incumbentScore = -1000
     else:
         incumbentScore = 1000
     return incumbentScore
 
 
-def moveAI2():
+def move_bent():
     Bent.board.betaBentMove = True
-    startScore = getIncumbent(CB.wt)
+    startScore = get_incumbent(CB.wt)
     moveBent = Bent.bestMove(CB.wt, startScore)
     moveBent.append(True)
     position(moveBent[0], moveBent[1])
     position(moveBent[2], moveBent[3])
-    print(
-        "Material: ",
-        Bent.materialScore(),
-        " move ",
-        Bent.moveScore(),
-        " pawns ",
-        Bent.pawnPosition(),
-    )
+    print("Material: ", Bent.materialScore(), " move ", Bent.moveScore(), " pawns ", Bent.pawnPosition(),)
     CB.print_board()
     Bent.board.betaBentMove = False
 
@@ -234,19 +184,46 @@ def decorator(func):
     return inner
 
 
-# sys.stdout.write=decorator(sys.stdout.write)
-
-
-turn = Label(text = "Turn: White", bg = "white").grid(row = 6, column = 9)
-buttonAI1 = Button(
-    Chess, bg = "blue", text = "AIdan", height = 4, width = 10, command = lambda: moveAI1()
-).grid(row = 6, column = 10)
-buttonAI1 = Button(
-    Chess, bg = "red", text = "BetaBent", height = 4, width = 10, command = lambda: moveAI2()
-).grid(row = 6, column = 8)
-
-Aidan = AI1(CB)
-Bent = AI2(CB)
-start_game()
-
-Chess.mainloop()
+if __name__ == '__main__':
+    
+    CB = Board()
+    Chess = Tk()
+    Chess.title("SkakMat2")
+    
+    textbox = Text(Chess)
+    textbox.grid(row=0, column=8, columnspan=6, rowspan=5)
+    
+    move = [0, 0, 0, 0, False]
+    
+    B = [["X"] * 8] * 8
+    """ Images """
+    img_path = "C:\\Users\\Philip\\Dropbox\\Python\\cp\\"
+    BP = PhotoImage(file=f"{img_path}BP.png", height=80)
+    BK = PhotoImage(file=f"{img_path}BK.png", height=80)
+    BB = PhotoImage(file=f"{img_path}BB.png", height=80)
+    BQn = PhotoImage(file=f"{img_path}BQn.png", height=80)
+    BKi = PhotoImage(file=f"{img_path}BKi.png", height=80)
+    BR = PhotoImage(file=f"{img_path}BR.png", height=80)
+    WP = PhotoImage(file=f"{img_path}WP.png", height=80)
+    WK = PhotoImage(file=f"{img_path}WK.png", height=80)
+    WB = PhotoImage(file=f"{img_path}WB.png", height=80)
+    WQn = PhotoImage(file=f"{img_path}WQn.png", height=80)
+    WKi = PhotoImage(file=f"{img_path}WKi.png", height=80)
+    WR = PhotoImage(file=f"{img_path}WR.png", height=80)
+    Empt = PhotoImage(file=f"{img_path}Empty.png", height=80, width=80)
+    
+    imgur = {}
+    for col in ['B', 'W']:
+        for pc in ['P', 'K', 'B', 'Qn', 'Ki', 'R']:
+            imgur[f"{col}{pc}"] = PhotoImage(file=f"{img_path}{col}{pc}.png", height=80)
+    
+    Label(text="Turn: White", bg="white").grid(row=6, column=9)
+    
+    Button(Chess, bg="blue", text="AIdan", height=4, width=10, command=lambda: move_aidan()).grid(row=6, column=10)
+    Button(Chess, bg="red", text="BetaBent", height=4, width=10, command=lambda: move_bent()).grid(row=6, column=8)
+    
+    Aidan = AI1(CB)
+    Bent = BetaBent(CB)
+    start_game()
+    
+    Chess.mainloop()

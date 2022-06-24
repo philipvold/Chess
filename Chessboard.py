@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep  7 11:58:18 2016
+""" Main implementation of the gamestate."""
 
-@author: Philip
-"""
 
 import tkinter as tk
 
